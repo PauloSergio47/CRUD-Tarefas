@@ -20,12 +20,24 @@ public class TarefasServico {
     }
 
     public Tarefas procurarPorID(Long id) {
-        //Optional<Tarefas> obj = tarefasRepositorio.findById(id);
-        //return obj.get();
         return tarefasRepositorio.findById(id).orElseThrow(() -> new TarefaNaoEncontrada(id));
     }
 
     public Tarefas criar(Tarefas tarefa) {
         return tarefasRepositorio.save(tarefa);
+    }
+    
+    public Tarefas updateTarefa(Long id, Tarefas tarefasDetalhes) {
+    	Tarefas tarefas = tarefasRepositorio.findById(id)
+    			.orElseThrow(() -> new TarefaNaoEncontrada(id));
+    	
+    	tarefas.setTitulo(tarefasDetalhes.getTitulo());
+    	tarefas.setDescricao(tarefasDetalhes.getDescricao());
+    	
+    	return tarefasRepositorio.save(tarefas);
+    }
+    
+    public void deletarTarefas(long id) {
+    	tarefasRepositorio.deleteById(id);
     }
 }
